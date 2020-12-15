@@ -1,0 +1,293 @@
+\documentclass[a4paper]{article}
+\usepackage[utf8]{inputenc}
+\usepackage{fancyhdr}
+\usepackage{vmargin}
+\usepackage{listings}
+
+%nicer tables
+\usepackage{booktabs}
+
+\usepackage{graphicx}
+
+\usepackage{float}
+
+\usepackage{color}
+\usepackage{url}
+\usepackage{hyperref}
+
+\usepackage{enumerate}
+
+\usepackage[backend=biber]{biblatex}
+
+\usepackage{multicol}
+\setlength{\columnsep}{1cm}
+\setlength{\headheight}{36pt}
+
+\definecolor{bluekeywords}{rgb}{0.13,0.13,1}
+\definecolor{greencomments}{rgb}{0,0.5,0}
+\definecolor{redstrings}{rgb}{0.9,0,0}
+
+
+
+%
+\usepackage{amsmath, amsthm, amssymb}
+\usepackage[ngerman, english]{babel}
+\usepackage{marvosym}
+\usepackage{graphics}
+\usepackage{extarrows}
+\usepackage{forloop}
+\usepackage{mathtools}
+
+\usepackage[]{algorithm2e}
+
+\usepackage{hyperref}% http://ctan.org/pkg/hyperref
+\usepackage{cleveref}% http://ctan.org/pkg/cleveref
+\usepackage{lipsum}% http://ctan.org/pkg/lipsum
+\newtheorem{definition}{Definition}
+\newtheorem{theorem}{Theorem}
+\newtheorem{lemma}{Lemma}
+\newtheorem{preliminary}{Preliminary}
+\newtheorem{notation}{Notation}
+\newtheorem{property}{Property}
+\newtheorem{corollary}{Corollary}
+\newtheorem{example}{Example}
+\newtheorem{hypothesis}{Hypothesis}
+
+\crefname{theorem}{Theorem}{Theorems}
+\crefname{definition}{Definition}{Definitions}
+\crefname{lemma}{Lemma}{Lemmas}
+\crefname{preliminary}{Preliminary}{Preliminaries}
+\crefname{notation}{Notation}{Notations}
+\crefname{property}{Property}{Properties}
+\crefname{corollary}{Corollary}{Corollaries}
+\crefname{example}{Example}{Examples}
+\crefname{hypothesis}{Hypothesis}{Hypotheses}
+
+\newenvironment{beweis}{\begin{proof}[Beweis]}{\end{proof}}
+%
+
+
+
+\lstset{language=Python,
+showspaces=false,
+showtabs=false,
+breaklines=true,
+showstringspaces=false,
+breakatwhitespace=true,
+escapeinside={(*@}{@*)},
+commentstyle=\color{greencomments},
+keywordstyle=\color{bluekeywords}\bfseries,
+stringstyle=\color{redstrings},
+basicstyle=\ttfamily
+}
+
+
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{5pt}
+
+\frenchspacing
+\pagestyle{fancy}
+\sloppy 
+
+\markright{headline}
+
+\addbibresource{references.bib}
+
+\begin{document}
+
+\lhead{\begin{tabular}{l}
+\\
+Neural Networks\\
+Saarland University WiSe 2020/2021\\
+\end{tabular}}
+
+\rhead{\begin{tabular}{r}
+Assignment 4\\
+Simon Laurent Lebailly, 2549365\\%% <=== Also HERE if you have a team mateUpdate Name HERE !!! 
+Christian Schmidt, 2537621
+\end{tabular}}
+
+
+
+
+\section*{Exercise 4.1 - Logistic Regression}
+    \subsection*{a)}
+        If we replace $y$ and $z$ by the given expressions we get the following:
+        \begin{align}
+            L(w,b) &= -t \cdot \log\left(\sigma(w^T x + b)\right) - (1-t) \cdot \log\left(1 - \sigma(w^T x + b)\right)\\
+            &= -t \cdot \log\left(\frac{1}{1 + e^{-(w^T x + b)}}\right) - (1-t) \cdot \log\left(1 - \frac{1}{1 + e^{-(w^T x + b)}}\right)\\
+            &= -t \cdot \log\left(1\right) + t \cdot \log\left(1 + e^{-(w^T x + b)}\right) - (1-t) \cdot \log\left(\frac{e^{-(w^T x + b)}}{1 + e^{-(w^T x + b)}}\right)\\
+            &= -t \cdot \log\left(1\right) + t \cdot \log\left(1 + e^{-(w^T x + b)}\right) - (1-t) \cdot \left(\log\left(e^{-(w^T x + b)}\right) - \log\left(1 + e^{-(w^T x + b)}\right)\right)\\
+            &= t \cdot \log\left(1 + e^{-(w^T x + b)}\right) - (1-t) \cdot \left(-w^T x - b - \log\left(1 + e^{-(w^T x + b)}\right)\right)\\
+            &= t \cdot \log\left(1 + e^{-(w^T x + b)}\right) + w^T x + b + \log\left(1 + e^{-(w^T x + b)}\right) - tw^T x - tb - t \log\left(1 + e^{-(w^T x + b)}\right)\\
+            &= w^T x + b + \log\left(1 + e^{-(w^T x + b)}\right) - tw^T x - tb\\
+            &= (1-t) \cdot (w^T x + b) + \log\left(1 + e^{-(w^T x + b)}\right)
+        \end{align}
+        Now we will derive the equivalent cost minimization problem by derive $L(w,b)$.
+        First we derive $L(w,b)$ with respect to $w_i$, $i \in \{1,...,N\}$:
+        \begin{align}
+            \frac{\partial L}{\partial w_i} &= x_i \cdot (1-t) \cdot 1 + x_i \cdot e^{-(w^T x + b)} \cdot \frac{1}{1 + e^{-(w^T x + b)}}\\
+            &= x_i \cdot \left(1 - t + \frac{e^{-(w^T x + b)}}{1 + e^{-(w^T x + b)}}\right)\\
+            &= x_i \cdot \left(1 - t + \frac{1}{1 + e^{w^T x + b}}\right)
+        \end{align}
+        Now we will derive $L(w,b)$ with respect to $b$:
+        \begin{align}
+            \frac{\partial L}{\partial b} &= (1-t) + 1 \cdot e^{-(w^T x + b)} \cdot \frac{1}{1 + e^{-(w^T x + b)}}\\
+            &= 1 - t + \frac{e^{-(w^T x + b)}}{1 + e^{-(w^T x + b)}}\\
+            &= 1 - t + \frac{1}{1 + e^{w^T x + b}}
+        \end{align}
+        To find the minima we have to set the derivatives to zero.
+        \begin{align}
+            & & \frac{\partial L}{\partial w_i} &= 0\\
+            &\Leftrightarrow & x_i \cdot \left(1 - t + \frac{1}{1 + e^{w^T x + b}}\right) &= 0\\
+            &\Leftrightarrow & 1 - t + \frac{1}{1 + e^{w^T x + b}} &= 0\\
+            &\Leftrightarrow & \frac{1}{1 + e^{w^T x + b}} &= t - 1\\
+            &\Leftrightarrow & (t - 1) \cdot (1 + e^{w^T x + b}) &= 1\\
+            &\Leftrightarrow & t + t e^{w^T x + b} - e^{w^T x + b} &= 2\\
+            &\Leftrightarrow & e^{w^T x + b} &= \frac{2-t}{t-1}\\
+            &\Leftrightarrow & w^T x + b &= \log\left(\frac{2-t}{t-1}\right)\\
+            &\Leftrightarrow & w^T x &= \log\left(\frac{2-t}{t-1}\right) - b\\
+            &\Leftrightarrow & w &= \left(\log\left(\frac{2-t}{t-1}\right) - b\right) \cdot x\\
+        \end{align}
+        And now for $b$:
+        \begin{align}
+            & & \frac{\partial L}{\partial b} &= 0\\
+            &\Leftrightarrow & 1 - t + \frac{1}{1 + e^{w^T x + b}} &= 0\\
+            &\Leftrightarrow & b &= \log\left(\frac{2-t}{t-1}\right) - w^T x\\
+        \end{align}
+        The problem is that both variables depend of each other.
+        
+        
+    \subsection*{b)}
+        It is then no longer an event and counter-event. (1-t) then no longer evaluates to 1 or 0, but to 1 or -1.
+        Thus the result is no longer between 0 and 1, and it can no longer be interpreted directly as a measure of probability!
+        
+    
+    
+    \subsection*{c)}
+        Hence $y(x) \in \{0,1\}$, $y(x)$ is a tighter version of the sigmoid function.
+        Under the assumption that the data is equally distributed, the probability that the sigmoid function is greater than $0,5$ is the same like it is less than $0,5$.
+        So the probability for both is $50\%$.
+        The input of the indicator function is half the time under $0,5$, and half the time over $0,5$.
+        Therefore the indicator function also evaluates with a probability of $50\%$ to $1$, and with a probability of $50\%$ to $0$.
+        So as input for $L$, we have a decision boundary by $0,5$.
+        
+
+
+\newpage
+\section*{Exercise 4.2 - Support Vector Machines (SVMs)}
+    \subsection*{a)}
+        First, we have to normalize $w$.
+        We chose the normalization such that 
+        \begin{align}
+            w^T x_+ + b &= +1\\ \text{ and }
+            w^T x_- + b &= -1.
+        \end{align}
+        Here, $x_+$ denotes the amount of data to be positively classified, and $x_-$ the amount of data to be negatively classified.
+        Now let us subtract the second from the first equation:
+        \begin{align}
+            w^T (x_+ - x_-) &= 2
+        \end{align}
+        we divide the equation by $||w||$, which is greater zero, to normalize:
+        \begin{align}
+            \frac{w^T (x_+ - x_-)}{||w||} &= \frac{2}{||w||}
+        \end{align}
+        $\Rightarrow$ $\frac{2}{||w||}$ is the width of the classification margin!
+    
+    
+    
+    \subsection*{b)}
+        First, we assume that we have $n$ "training data points".
+        Our goal is to maximize $\frac{2}{||w||}$, which we will reach by minimizing $||w||$.
+        But for that we have to consider a quadratic function, and so we will minimize the function $f: \frac{1}{2} ||w||^2$, 
+        such that it holds for every $i \in \{1,...,n\}$, $g: y_i (w X_i) +b -1 \geq 0$.\\
+        This brings us to a constraint optimization problem, which can be solved using th Lagrangian.\\
+        Let $x'$ be any point, then the two constraints of our optimization problem are
+        \begin{enumerate}
+            \item We search a point $x'$ such that the gradient of $f(x')$, and the gradient of $\lambda g(x')$, $\lambda \geq 0$, are the same:
+                \begin{align}
+                    \nabla f(x') = \nabla \lambda g(x')
+                \end{align}
+            \item Such a $x'$ has to be on the constraint line as well:
+                \begin{align}
+                    g(x') = 0
+                \end{align}
+        \end{enumerate}
+        We can rediscribe this conditions as Lagrangian function $L$, and the corresponding derivative:
+        \begin{align}
+            L(x, \alpha) &= f(x) - \sum\limits_{i=1}^n \alpha_i [y_i (w.x_i + b) - 1]\\
+            &= \frac{1}{2} ||w||^2 - \sum\limits_{i=1}^n \alpha_i [y_i (w.x_i + b) - 1]\\
+            \nabla L(x,\alpha) &= 0
+        \end{align}
+        Now we will derive $L$ with respect to $w$ and $b$:
+        \begin{align}
+            & & \frac{\partial L}{\partial w} &= 2 \cdot \frac{1}{2} \cdot ||w|| - \sum\limits_{i=1}^n \alpha_i y_i x_i = w - \sum\limits_{i=1}^n \alpha_i y_i x_i = 0\\
+            &\Leftrightarrow & w &= \sum\limits_{i=1}^n \alpha_i y_i x_i
+        \end{align}
+        In future, we will denote the "new" $w$ as $w^*$.
+        \begin{align}
+            & & \frac{\partial L}{\partial b} = - \sum\limits_{i=1}^n \alpha_i y_i &= 0\\
+            &\Leftrightarrow & \sum\limits_{i=1}^n \alpha_i y_i &= 0
+        \end{align}
+        We denote this equation in future as "third constraint".\\\\
+        \ 
+        What we have so far is called the \textbf{primal} Lagrangian. Now we search a solution for the \textbf{dual} Lagrangian with respect to the best set of Lagrangian multipliers $\alpha$:
+        $$\max\limits_{\alpha} L(w^*, \alpha)$$
+        
+        What we have so far:
+        \begin{align}
+            L(w,b) &= \frac{1}{2} \underbrace{||w||^2}_{w^T w} - \sum\limits_{i=1}^n \alpha_i [y_i (w.x_i + b) - 1]
+        \end{align}
+        Now we plug in $w^*$ and apply the third constraint:
+        \begin{align}
+            L(w^*,b) &= \frac{1}{2} \left( \sum\limits_{i=1}^n \alpha_i y_i x_i^T \right) \left( \sum\limits_{j=1}^n \alpha_j y_j x_j \right)
+            - \left( \sum\limits_{i=1}^n \alpha_i y_i x_i^T \right) \left( \sum\limits_{j=1}^n \alpha_j y_j x_j \right) 
+            - b \cdot \underbrace{\sum\limits_{i=1}^n \alpha_i y_i}_{= 0} + \sum\limits_{i=1}^n \alpha_i\\
+            &= - \frac{1}{2} \left( \sum\limits_{i=1}^n \alpha_i y_i x_i^T \right) \left( \sum\limits_{j=1}^n \alpha_j y_j x_j \right) + \sum\limits_{i=1}^n \alpha_i\\
+            &= \sum\limits_{i=1}^n \alpha_i - \frac{1}{2} \sum\limits_{i=1}^n \sum\limits_{j=1}^n \underbrace{\alpha_i \alpha_j y_i y_j}_{\text{weight}} \underbrace{x_i^T x_j}_{\text{dot product (*)}}
+        \end{align}
+        (*) Here the interesting part is, that the dot product between every pair of training points, captures the features of those training points!
+        It tells us how close every feature to each other feature is.\\
+        What we have now:
+        \begin{align}
+            L(w^*,b) &= \underbrace{\frac{1}{2} ||w^*||^2}_{(A)} - \underbrace{\sum\limits_{i=1}^n \underbrace{\alpha_i}_{\geq 0} \underbrace{[y_i (w^*.x_i + b) - 1]}_{\geq 0}}_{(B)}
+        \end{align}
+        To maximize $L$ with respect to $\alpha$ and the primal Lagrange, we see that $L$ is maximal if it is equal to (A).
+        Hence (B) is greater equal zero, we can maximize $L$, if we find the $\alpha$ for which (B) is equal zero!
+        In general there are two cases:
+        \begin{enumerate}
+            \item Consider all $\alpha_i$ are strict positive:\\
+                Then (B) can only be equal zero, if $[y_i (w^*.x_i + b) - 1] = 0$ for all $i$.
+            \item Consider $[y_i (w^*.x_i + b) - 1] > 0$ for all $i$:\\
+                Then (B) can only be equal zero, if $\alpha_i = 0$ for all $i$.
+        \end{enumerate}
+        A very import condition we have is, that for points which are lying on the marginal hyperplane, the corresponding $\alpha_i$ are strictly positive!
+        And the other points, which not lye on the marginal hyperplane, have an $\alpha_i$ equal to zero!\\\\
+        So, the decision function can only be fully specified by a very small subset of training samples, the so called support vectors.
+        And so the solution for maximizing the margin is to choose $w^*$ as
+        $$w^* = \sum\limits_{s \in S} \alpha_s y_s x_s$$
+        whith $S$ the set including all support vectors, and $\alpha_i > 0$, for all $i \in \{1,...,n\}$!
+
+    
+    \subsection*{c)}
+        $\alpha$ weights all training samples and specifies whether a data sample lies on the marginal hyperplane or not.
+    
+    \subsection*{d)}
+        Yes it is possible, for example by using the kernel trick.
+        If you run the number of dimensions towards infinity, it is always possible to separate the data linearly from a certain number of dimensions on.
+        If each data set can be separated linearly from a certain number of dimensions onwards, with the help of Lagrangian we can always find a maximized margin.
+
+
+
+\section*{Exercise 4.3 - Clash of the Kernels!}
+    \subsection*{a)}
+    
+    \subsection*{b)}
+    
+
+
+
+
+
+
+\end{document}
