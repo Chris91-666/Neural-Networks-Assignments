@@ -145,13 +145,12 @@ $(1+1 = 2 \text{ points})$
     \subsection*{\underline{Figure (a):}}
         \includegraphics[width=0.8\linewidth]{Assignment 5/1.png}
         \subsubsection*{a)}
-            At any given point, the eigenvalues of the Hessian matrix tell us whether the surface is concave up, concave down, or a little of both.
             As we can see, $x'$ is a local extremum of $f(x)$. To be more precise, $x'$ seems to be a local minimum.
             And from the view of the representative red arrows, the function $f(x)$ is increasing from $x'$ in all directions.
             Hence the surface of the function is concave up from the view of point $x'$.
             As a function that maps from two dimensional space, the Hessian matrix has exactly two eigenvectors, and therefore exactly two eigenvalues.
             Looking at the slope, the function is increasing in all directions from $x'$ as just mentioned.
-            As we know from the exercise description, the curvature in the direction of an eigenvector is determined by its eigenvalue.
+            As we know from the exercise description, the curvature in the direction of an eigenvector is determined by its eigenvalue.\\
             Thus, all eigenvalues have a positive sign.
 
         \subsubsection*{b)}
@@ -162,13 +161,12 @@ $(1+1 = 2 \text{ points})$
     \subsection*{\underline{Figure (b):}}
         \includegraphics[width=0.8\linewidth]{Assignment 5/2.png}
         \subsubsection*{a)}
-            At any given point, the eigenvalues of the Hessian matrix tell us whether the surface is concave up, concave down, or a little of both.
             As we can see, $x'$ is a local extremum of $f(x)$. To be more precise, $x'$ seems to be a local maximum.
             And from the view of the representative red arrows, the function $f(x)$ is decreasing from $x'$ in all directions.
             Hence the surface of the function is concave down from the view of point $x'$.
             As a function that maps from two dimensional space, the Hessian matrix has exactly two eigenvectors, and therefore exactly two eigenvalues.
             Looking at the slope, the function is decreasing in all directions from $x'$ as just mentioned.
-            As we know from the exercise description, the curvature in the direction of an eigenvector is determined by its eigenvalue.
+            As we know from the exercise description, the curvature in the direction of an eigenvector is determined by its eigenvalue.\\
             Thus, all eigenvalues have a negative sign.
 
         \subsubsection*{b)}
@@ -200,12 +198,17 @@ $(1+1 = 2 \text{ points})$
     \subsection*{\underline{Figure (d):}}
         \includegraphics[width=0.8\linewidth]{Assignment 5/4.png}
         \subsubsection*{a)}
-        
+            As we can see, $x'$ is a local extremum of $f(x)$. To be more precise, $x'$ seems to be a saddle point.
+            And from the view of the representative arrows, the function $f(x)$ is increasing from $x'$ in two opposite directions (green arrows), and decreases in the two orthogonal directions (red arrows).
+            Hence the surface of the function is concave up and concave down from the view of point $x'$.
+            As a function that maps from two dimensional space, the Hessian matrix has exactly two eigenvectors, and therefore exactly two eigenvalues.
+            As we know from the exercise description, the curvature in the direction of an eigenvector is determined by its eigenvalue.\\
+            Thus, one eigenvalue has a positive sign, the other has a negative sign.
+
         \subsubsection*{b)}
+            Since one eigenvalue of the symmetric Hessian matrix $A$ is greater than zero, and the other is less than zero, we can conclude that $X^T A X$, for a definite matrix $A$, has to be greater and less than zero at the same time.
+            Since this is not possible, $A$ is an indefinite matrix.
             
-            
-
-
 
 
 \newpage
@@ -233,7 +236,29 @@ $(0,5+0,5+0,5 = 1,5 \text{ points})$
         
         
     \subsection*{b)}
-        
+        \textbf{To show:} Every local minimum of a convex function is a global minimum.
+        \begin{proof}
+            Proof by contradiction:\\
+            Let $f: \mathbb{R}^n \rightarrow \mathbb{R}$ be a convex function, and assume $x^*$ is a local, but not a global minimum of $f$!\\
+            Then there is at least one $y \in \mathbb{R}^n$ so that
+            \begin{align}
+                & & f(y) &< f(x^*)\\
+                &\Leftrightarrow & f(y) - f(x^*) &< 0
+            \end{align}
+            By definition of convexity it holds for all $\lambda \in (0,1)$ that
+            \begin{align}
+                f(x^* + \lambda (y - x^*)) &\leq f(x^*) + \lambda f(y - x^*)\\
+                &= f(x^*) + \underbrace{\underbrace{\lambda}_{0 < \lambda < 1} (\underbrace{f(y) - f(x^*)}_{< 0})}_{< 0}\\
+                &< f(x^*)
+            \end{align}
+            Hence any small ball
+            $$\mathcal{B}_{\epsilon}(x^*) := \{z \in \mathbb{R}^n : ||z-x^*|| \leq \epsilon\}$$
+            with radius $\epsilon$ converging to zero is not empty, there exists at least one $z \in \mathcal{B}_{\epsilon}(x^*)$, so that
+            $$f(z) < f(x^*)$$
+            In other words, no matter how small the radius $\epsilon$, there is at least one $z \in \mathcal{B}_{\epsilon}(x^*)$ with $f(z) < f(x^*)$.\\
+            But this is a contradiction to the given assumption that $x^*$ is a local minimum of $f$, because $x^*$ is only a local minimum, if there is an environment $\mathcal{B}_{\epsilon}(x^*) := \{z \in \mathbb{R}^n : ||z-x^*|| \leq \epsilon\} \neq \emptyset$ with $f(x^*) < f(z)$ for all $z \in \mathcal{B}_{\epsilon}(x^*)$.\\
+            From this contradiction we can conclude that every local minimum $x^*$ of a convex function is also a global minimum!
+        \end{proof}
         
         
     \subsection*{c)}
