@@ -131,10 +131,11 @@ $(1+0,5+1 = 2,5 \text{ points})$
 \section*{Exercise 5.2 - Weight Space Symmetry}
 $(1+0,5 = 1,5 \text{ points})$
     \subsection*{a)}
-        
-    
+    When applying the change of signs on any neuron for the input and output simultaneously, we can come up with exactly one equivalent transformation. Therefore, for M neurons, we can derive M equivalent transformations.\\
+    Similarly, combining each neuron with every other neuron yields a total of $\sum_{i=1}^{M-1} i$ equivalent transformations when interchanging the weights of their inputs and outputs simultaneously. However, since we can apply this to both the original neurons and their equivalent transformations based on the change of signs, this yields a total of $\sum_{i=1}^{2M-1} i$ equivalent transformations.
     
     \subsection*{b)}
+    Each layer can have $\sum_{j=1}^{2M_i-1}j$ transformations, meaning the total number of equivalent transformations for the whole network is $\sum_{i=1}^{N}\sum_{j=1}^{2M_i-1}j$.
         
 
 
@@ -215,12 +216,109 @@ $(1+1 = 2 \text{ points})$
 \section*{Exercise 5.4 - Gradient Descent and Newton's Method}
 $(1+1+0,5 = 2,5 \text{ points})$
     \subsection*{a)}
-        
-        
+        First we have to compute the gradient:
+        \begin{align}
+            \nabla f(x) = \left( \begin{matrix} 2x_1 - x_2 -3 \\ 2x_2 - x_1 \end{matrix} \right)
+        \end{align}
+        First we will compute the L2-norm of $x^{(0)}$:
+            \begin{align*}
+                ||\nabla f(x^{(0)})||_2 = \sqrt{2^2 + 1^2} = \sqrt{5} \approx 2,236 > 0,2
+            \end{align*}
+            The L2-norm is greater than $0,2$ $\Rightarrow$ Go to iteration 1.
+
+        \subsubsection*{1. Iteration:}
+            \begin{align*}
+                x^{(1)} &= x^{(0)} - \epsilon \cdot \nabla f(x^{(0)})\\
+                &= \left( \begin{matrix} 1 \\ 1 \end{matrix} \right) - 0,5 \cdot \left( \begin{matrix} 2-1-3 \\ 2-1 \end{matrix} \right)\\
+                &= \left( \begin{matrix} 1 \\ 1 \end{matrix} \right) - 0,5 \cdot \left( \begin{matrix} -2 \\ 1 \end{matrix} \right)
+                = \left( \begin{matrix} 2 \\ 0,5 \end{matrix} \right)
+            \end{align*}
+            Now we will compute the L2-norm of $x^{(1)}$:
+            \begin{align*}
+                ||\nabla f(x^{(1)})||_2 = \sqrt{0,25 + 1} \approx 1,118 > 0,2
+            \end{align*}
+            The L2-norm is greater than $0,2$ $\Rightarrow$ Go to iteration 2.
+            
+        \subsubsection*{2. Iteration:}
+            \begin{align*}
+                x^{(2)} &= x^{(1)} - \epsilon \cdot \nabla f(x^{(1)})\\
+                &= \left( \begin{matrix} 2 \\ 0,5 \end{matrix} \right) - 0,5 \cdot \left( \begin{matrix} 4-0,5-3 \\ 1-2 \end{matrix} \right)\\
+                &= \left( \begin{matrix} 2 \\ 0,5 \end{matrix} \right) - 0,5 \cdot \left( \begin{matrix} 0,25 \\ -0,5 \end{matrix} \right)
+                = \left( \begin{matrix} 1,75 \\ 1 \end{matrix} \right)
+            \end{align*}
+            Now we will compute the L2-norm of $x^{(2)}$:
+            \begin{align*}
+                ||\nabla f(x^{(2)})||_2 = \frac{1}{4} \sqrt{5} \approx 0,559 > 0,2
+            \end{align*}
+            The L2-norm is greater than $0,2$ $\Rightarrow$ Go to iteration 3.
+
+        \subsubsection*{3. Iteration:}
+            \begin{align*}
+                x^{(3)} &= x^{(2)} - \epsilon \cdot \nabla f(x^{(2)})\\
+                &= \left( \begin{matrix} 1,75 \\ 1 \end{matrix} \right) - 0,5 \cdot \left( \begin{matrix} 2*1,75-1-3 \\ 2-1,75 \end{matrix} \right)\\
+                &= \left( \begin{matrix} 1,75 \\ 1 \end{matrix} \right) - 0,5 \cdot \left( \begin{matrix} -0,5 \\ 0,25 \end{matrix} \right)
+                = \left( \begin{matrix} 2 \\ 0,875 \end{matrix} \right)
+            \end{align*}
+            Now we will compute the L2-norm of $x^{(3)}$:
+            \begin{align*}
+                ||\nabla f(x^{(3)})||_2 = \frac{1}{8} \sqrt{5} \approx 0,280 > 0,2
+            \end{align*}
+            The L2-norm is greater than $0,2$ $\Rightarrow$ Go to iteration 4.
+
+        \subsubsection*{4. Iteration:}
+            \begin{align*}
+                x^{(4)} &= x^{(3)} - \epsilon \cdot \nabla f(x^{(3)})\\
+                &= \left( \begin{matrix} 2 \\ 0,875 \end{matrix} \right) - 0,5 \cdot \left( \begin{matrix} 4-0,875-3 \\ 1,75-2 \end{matrix} \right)\\
+                &= \left( \begin{matrix} 2 \\ 0,875 \end{matrix} \right) - 0,5 \cdot \left( \begin{matrix} 0,125 \\ -0,25 \end{matrix} \right)
+                = \left( \begin{matrix} 1,9375 \\ 1 \end{matrix} \right)
+            \end{align*}
+            Now we will compute the L2-norm of $x^{(4)}$:
+            \begin{align*}
+                ||\nabla f(x^{(4)})||_2 = \frac{1}{16} \sqrt{5} \approx 0,140 < 0,2
+            \end{align*}
+            The L2-norm is less than $0,2$ $\Rightarrow$ Stop in step 4 by point $x^{(4)}$!
+            
         
     \subsection*{b)}
-        
-        
+        First we have to compute the Jacobian matrix:
+        \begin{align}
+            J_f(x) = \nabla f(x) = \left( \begin{matrix} 2x_1 - x_2 -3 \\ 2x_2 - x_1 \end{matrix} \right)
+        \end{align}
+        Now we will derive the Hessian matrix:
+        \begin{align}
+            H_f(x) = \left( \begin{matrix} 2 & -1 \\ -1 & 2 \end{matrix} \right)
+        \end{align}
+        The inverse of the Hessian matrix:
+        \begin{align}
+            H_f(x)^{-1} = \frac{1}{3} \cdot \left( \begin{matrix} 2 & 1 \\ 1 & 2 \end{matrix} \right)
+        \end{align}
+        The formula for the Newton method is as follow:
+        \begin{align}
+            x = x^{(0)} - H_f(x^{(0)})^{-1} J_f(x^{(0)})
+        \end{align}
+        Now we will compute the extremum $x'$ of $f$:
+        \begin{align}
+            x' &= x^{(0)} - H_f(x^{(0)})^{-1} J_f(x^{(0)})\\
+            &= \left( \begin{matrix} 1 \\ 1 \end{matrix} \right) - \frac{1}{3} \cdot \left( \begin{matrix} 2 & 1 \\ 1 & 2 \end{matrix} \right) \cdot \left( \begin{matrix} -2 \\ 1 \end{matrix} \right)\\
+            &= \left( \begin{matrix} 1 \\ 1 \end{matrix} \right) - \frac{1}{3} \cdot \left( \begin{matrix} -3 \\ 0 \end{matrix} \right)
+            = \left( \begin{matrix} 2 \\ 1 \end{matrix} \right)
+        \end{align}
+        Test:
+        \begin{align}
+            \nabla f(x') = \left( \begin{matrix} 2 \cdot 2 - 1 - 3 \\ 2 \cdot 1 -2 \end{matrix} \right) = \left( \begin{matrix} 0 \\ 0 \end{matrix} \right)
+        \end{align}
+        $\Rightarrow$ $x'$ is an extremum of $f$.
+        But is the solution a global minimum?
+        \begin{align}
+            \Delta_1 &= H_f(x')_{1,1} = 2 > 0\\
+            \Delta_2 &= det(H_f(x')) = 2 \cdot 2 - (-1 \cdot (-1)) = 4-1 = 3 > 0
+        \end{align}
+        All leading main minors of the $2 \times 2$ Hessian matrix $H_f(x')$ are greater than zero.\\
+        $\Rightarrow$ $H_f(x')$ is positive definite!\\
+        $\Rightarrow$ $x'$ is a local minimum!\\\\
+        The degree of a polynomial indicates the number of possible zero crossings.
+        Since the Jacobian matrix contains only polynomials with degree 1 as rows, there is also only one zero crossing at most, and thus also only one extremum at most.\\
+        $\Rightarrow$ The local minimum $x'$ is also the global minimum!
         
     \subsection*{c)}
     
