@@ -117,7 +117,11 @@ $(1+0,5+1 = 2,5 \text{ points})$
         
         
     \subsection*{b)}
-        
+        \begin{align}
+            L_i = \sum\limits_{j=1}^k ||x_i -\mu_j||^2
+        \end{align}
+        If we derive $L_i$ with respect to $\mu_1$ we become
+        $$L'_i = -2 \cdot ||x_i - \mu_1||$$
         
         
     \subsection*{c)}
@@ -321,7 +325,20 @@ $(1+1+0,5 = 2,5 \text{ points})$
         $\Rightarrow$ The local minimum $x'$ is also the global minimum!
         
     \subsection*{c)}
-    
+        \begin{align}
+            f(x) &= 2x^3 -5x\\
+            f'(x) &= 6x^2 -5\\
+            f''(x) &= 12x
+        \end{align}
+        Let' consider $x=0$:
+        \begin{align}
+            x' = x - \frac{f'(x)}{f''(x)} = 0 - \frac{6 \cdot 0^2 -5}{12 \cdot 0} = ...\ \ \  \text{not possible! We can not divide by zero!}
+        \end{align}
+        No, obviously it is not always applicable if the function is twice continously differentiable!\\
+        The problem is the starting point $x=0$.
+        $x=0$ is the zero crossing of the second derivative $f''(x)$ of $f(x)$, and therefore an extremum of the first derivative $f'(x)$.
+        Thus the tangent of $f'(x)$ at $x=0$ has no gradient, and therefore there is no intersection of this tangent with the x-axis!
+        
     
 
 
@@ -374,7 +391,10 @@ $(0,5+0,5+0,5 = 1,5 \text{ points})$
         
         
     \subsection*{c)}
-        
+        Yes, the cross entropy loss function is convex, because we have the formula $L = - \sum\limits_{i=1}^n t_i log(p_i)$, for $n$ classes, where $t_i$ is the truth label and $p_i$ is the softmax probability for the ith class.\\
+        If we always set one truth label $t_i$ equal to one, and all other equal to zero, we become $L_i = -log(p_i)$.
+        If we do that for all $i \in \{1,...,n\}$ and compute the extrmum of all this $L_i$, we become the global minimum.
+        The shape of them this function is very similar to a parable in higher dimensions, and therefore the function is convex, because all entries of the corresponding Hessian matrix are constants!
     
     
 
