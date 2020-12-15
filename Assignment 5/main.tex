@@ -232,6 +232,20 @@ $(1+1+0,5 = 2,5 \text{ points})$
 \section*{Exercise 5.5 - Convex Optimization}
 $(0,5+0,5+0,5 = 1,5 \text{ points})$
     \subsection*{a)}
+        \textbf{To show:}
+        Let $f: \mathbib{C} \rightarrow \mathbb{R}$ be a convex function, defined on a convex $m$-dimensional set $\mathbib{C}$ in a real vector space and let $x \in \mathbb{R}^n$, $A \in \mathbb{R}^{m \times n}$ and $b \in \mathbb{R}^m$. Then we will proof that
+        \begin{center}
+            $f$ is convex $\Rightarrow$ $g(x) = f(Ax + b)$ is convex.
+        \end{center}
+        \begin{proof}
+            For all $x_1$, $x_2 \in \mathbib{C}$ and $\lambda \in [0,1]$ it holds:
+            \begin{align}
+                g(\lambda x_1 + (1 - \lambda) x_2) &= f(\lambda (\underbrace{A x_1 + b}_{\in \mathbib{C}}) + (1 - \lambda) (\underbrace{A x_2 + b}_{\in \mathbib{C}}))\\
+                &\leq \lambda f(A x_1 + b) + (1 - \lambda) f(A x_2 + b) \text{, \ \ \ \ \ \ because $f$ convex,}\\
+                &= \lambda g(x_1) + (1 - \lambda) g(x_2)
+            \end{align}
+            Thus $g$ is a convex function!
+        \end{proof}
         
         
         
@@ -239,8 +253,8 @@ $(0,5+0,5+0,5 = 1,5 \text{ points})$
         \textbf{To show:} Every local minimum of a convex function is a global minimum.
         \begin{proof}
             Proof by contradiction:\\
-            Let $f: \mathbb{R}^n \rightarrow \mathbb{R}$ be a convex function, and assume $x^*$ is a local, but not a global minimum of $f$!\\
-            Then there is at least one $y \in \mathbb{R}^n$ so that
+            Let $f: \mathbib{C} \rightarrow \mathbb{R}$ be a convex function, defined on a convex set $\mathbib{C}$ in a real vector space, and assume $x^*$ is a local, but not a global minimum of $f$!\\
+            Then there is at least one $y \in \mathbib{C}$ so that
             \begin{align}
                 & & f(y) &< f(x^*)\\
                 &\Leftrightarrow & f(y) - f(x^*) &< 0
@@ -252,11 +266,11 @@ $(0,5+0,5+0,5 = 1,5 \text{ points})$
                 &< f(x^*)
             \end{align}
             Hence any small ball
-            $$\mathcal{B}_{\epsilon}(x^*) := \{z \in \mathbb{R}^n : ||z-x^*|| \leq \epsilon\}$$
+            $$\mathcal{B}_{\epsilon}(x^*) := \{z \in \mathbib{C} : ||z-x^*|| \leq \epsilon\}$$
             with radius $\epsilon$ converging to zero is not empty, there exists at least one $z \in \mathcal{B}_{\epsilon}(x^*)$, so that
             $$f(z) < f(x^*)$$
             In other words, no matter how small the radius $\epsilon$, there is at least one $z \in \mathcal{B}_{\epsilon}(x^*)$ with $f(z) < f(x^*)$.\\
-            But this is a contradiction to the given assumption that $x^*$ is a local minimum of $f$, because $x^*$ is only a local minimum, if there is an environment $\mathcal{B}_{\epsilon}(x^*) := \{z \in \mathbb{R}^n : ||z-x^*|| \leq \epsilon\} \neq \emptyset$ with $f(x^*) < f(z)$ for all $z \in \mathcal{B}_{\epsilon}(x^*)$.\\
+            But this is a contradiction to the given assumption that $x^*$ is a local minimum of $f$, because $x^*$ is only a local minimum, if there is an environment $\mathcal{B}_{\epsilon}(x^*) := \{z \in \mathbib{C} : ||z-x^*|| \leq \epsilon\} \neq \emptyset$ with $f(x^*) < f(z)$ for all $z \in \mathcal{B}_{\epsilon}(x^*)$.\\
             From this contradiction we can conclude that every local minimum $x^*$ of a convex function is also a global minimum!
         \end{proof}
         
