@@ -1,0 +1,440 @@
+\documentclass[a4paper]{article}
+\usepackage[utf8]{inputenc}
+\usepackage{fancyhdr}
+\usepackage{vmargin}
+\usepackage{listings}
+
+%nicer tables
+\usepackage{booktabs}
+
+\usepackage{graphicx}
+
+\usepackage{float}
+
+\usepackage{color}
+\usepackage{url}
+\usepackage{hyperref}
+
+\usepackage{enumerate}
+
+\usepackage[backend=biber]{biblatex}
+
+\usepackage{multicol}
+\setlength{\columnsep}{1cm}
+\setlength{\headheight}{36pt}
+
+\definecolor{bluekeywords}{rgb}{0.13,0.13,1}
+\definecolor{greencomments}{rgb}{0,0.5,0}
+\definecolor{redstrings}{rgb}{0.9,0,0}
+
+
+
+%
+\usepackage{amsmath, amsthm, amssymb}
+\usepackage[ngerman, english]{babel}
+\usepackage{marvosym}
+\usepackage{graphics}
+\usepackage{extarrows}
+\usepackage{forloop}
+\usepackage{mathtools}
+
+\usepackage{tikz}
+\usetikzlibrary{automata,positioning,arrows.meta,calc,decorations.markings}%for start arrow
+
+\usepackage[]{algorithm2e}
+
+\usepackage{hyperref}% http://ctan.org/pkg/hyperref
+\usepackage{cleveref}% http://ctan.org/pkg/cleveref
+\usepackage{lipsum}% http://ctan.org/pkg/lipsum
+\newtheorem{definition}{Definition}
+\newtheorem{theorem}{Theorem}
+\newtheorem{lemma}{Lemma}
+\newtheorem{preliminary}{Preliminary}
+\newtheorem{notation}{Notation}
+\newtheorem{property}{Property}
+\newtheorem{corollary}{Corollary}
+\newtheorem{example}{Example}
+\newtheorem{hypothesis}{Hypothesis}
+
+\crefname{theorem}{Theorem}{Theorems}
+\crefname{definition}{Definition}{Definitions}
+\crefname{lemma}{Lemma}{Lemmas}
+\crefname{preliminary}{Preliminary}{Preliminaries}
+\crefname{notation}{Notation}{Notations}
+\crefname{property}{Property}{Properties}
+\crefname{corollary}{Corollary}{Corollaries}
+\crefname{example}{Example}{Examples}
+\crefname{hypothesis}{Hypothesis}{Hypotheses}
+
+\newenvironment{beweis}{\begin{proof}[Beweis]}{\end{proof}}
+%
+
+
+
+\lstset{language=Python,
+showspaces=false,
+showtabs=false,
+breaklines=true,
+showstringspaces=false,
+breakatwhitespace=true,
+escapeinside={(*@}{@*)},
+commentstyle=\color{greencomments},
+keywordstyle=\color{bluekeywords}\bfseries,
+stringstyle=\color{redstrings},
+basicstyle=\ttfamily
+}
+
+
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{5pt}
+
+\frenchspacing
+\pagestyle{fancy}
+\sloppy 
+
+\markright{headline}
+
+\addbibresource{references.bib}
+
+\begin{document}
+
+\lhead{\begin{tabular}{l}
+\\
+Neural Networks\\
+WiSe 2020/2021\\
+\end{tabular}}
+
+\rhead{\begin{tabular}{r}
+Assignment 6\\
+Simon Laurent Lebailly, 2549365, s9sileba@teams.uni-saarland.de\\%% <=== Also HERE if you have a team mateUpdate Name HERE !!! 
+Christian Mathieu Schmidt, 2537621, s9cmscmi@teams.uni-saarland.de
+\end{tabular}}
+
+
+\section*{Exercise 6.1 - Taylor Series}
+    \subsection*{a)}
+        $\sigma'(x) = \frac{\partial}{\partial x} (1 + e^{-x})^{-1}$\\\\
+        We use the reziprocal rule:
+        $\frac{\partial}{\partial x} \left[\frac{1}{g(x)}\right] = \frac{-g'(x)}{[g(x)]^2}$
+        \begin{align*}
+            \sigma'(x) &= \frac{- \frac{\partial}{\partial x} (1 + e^{-x})}{(1 + e^{-x})^{-2}}\\
+            &= e^{-x} \cdot \left( \frac{1}{1+e^{-x}} \right)^2\\
+            &= \frac{e^{-x}}{(1+e^{-x})^2}\\
+            &= \frac{1}{1+e^{-x}} \cdot \frac{e^{-x}}{1+e^{-x}}\\
+            &= \sigma(x) \cdot \frac{e^{-x} + 1 - 1}{1+e^{-x}}\\
+            &= \sigma(x) \cdot \left(\frac{1 + e^{-x}}{1+e^{-x}} - \frac{1}{1+e^{-x}}\right)\\
+            &= \sigma(x) \cdot (1 - \sigma(x)) = \sigma(x) - \sigma^2(x)
+        \end{align*}
+    \subsection*{b)}
+        We know that $\Theta^{(0)} = 0$:
+        \begin{itemize}
+            \item $\sigma(\Theta^{(0)}) = \sigma(0)
+                = \frac{1}{1+e^{-0}} = \frac{1}{1+1} = \frac{1}{2}$
+            \item $\sigma'(\Theta^{(0)})
+                = \sigma(0) - \sigma^2(0) = \frac{1}{2}-\frac{1}{4} = \frac{1}{2}$
+            \item First we have to compute the second derivative with help of a):
+                \begin{align*}
+                    \sigma''(x) &= [\sigma(x)-\sigma^2(x)] 
+                    - 2[\sigma(x)-\sigma^2(x)] \sigma(x)\\
+                    &= \sigma(x) - \sigma^2(x) - 2 \sigma^2(x) + 2\sigma^3(x)\\
+                    &= 2\sigma^3(x) - 3\sigma^2(x) + \sigma(x)
+                \end{align*}
+                Now we have to compute the second derivative at the point $\Theta^{(0)} = 0$:
+                \begin{align*}
+                    \sigma''(\Theta^{(0)}) &= 2\sigma^3(0)
+                    - 3\sigma^2(0) + \sigma(0)\\
+                    &= \frac{2}{8} - \frac{3}{4} + \frac{1}{2}
+                    = -\frac{1}{2} + \frac{1}{2} = 0
+                \end{align*}
+        \end{itemize}
+        
+        Now we can build the first 3 terms of the Taylor series for the sigmoid function centered at $0$:
+        \begin{align*}
+            T_2 \sigma(x; 0) &= \sigma(0) 
+            + \frac{\sigma'(0)}{1!} (x-0)
+            + \frac{\sigma''(0)}{2!} (x-0)^2\\
+            &= \frac{1}{2} + \frac{1}{2} x + \frac{0}{2} x^2\\
+            &= \frac{1}{2} x^2 + \frac{1}{2}
+        \end{align*}
+
+\newpage
+    \subsection*{c)}
+        We only use the first two terms of the Taylor series at the point $w_n$:
+        \begin{align*}
+            T_1 f(w_{n+1};w_n) &= f(w_n) + \frac{\nabla f(w_n)}{1!} (w_{n+1} - w_n)\\
+            &= f(w_n) + \nabla f(w_n) (w_{n+1} - w_n)\\
+            &= f(w_n) + g(n) (w_{n+1} - w_n)\\
+            &= f(w_n) + g(n) ((w_n - \epsilon g(n)) - w_n)\\
+            &= f(w_n) + g(n) \underbrace{(w_n - w_n)}_{=0} - \epsilon g^2(n)\\
+            &= f(w_n) - \epsilon g^2(n) 
+            = \underbrace{f(w_n) - \epsilon (\nabla f(w_n))^2}_{\text{Gradient descent for } f(w_n)}
+        \end{align*}
+        So we can see that the applying gradient descend on $f(w_n)$ pushes the error function towards a local minimum!
+
+
+
+
+\newpage
+\section*{Exercise 6.2 - Computation Graphs}
+    \subsection*{a)}
+        \begin{center}
+        \begin{tikzpicture}[scale=0.15]
+        \tikzstyle{every node}+=[inner sep=0pt]
+        \draw [black] (119,-6.2) circle (3);
+        \draw (119,-6.2) node {$L$};
+        \fill [black] (116,-6.2) -- (115.2,-5.7) -- (115.2,-6.7);
+        \draw [black] (116,-6.2) -- (113.9,-6.2);
+        \draw [black] (95,-57.1) circle (3);
+        \draw (95,-57.1) node {$v_2$};
+        \draw [black] (72,-57.1) circle (3);
+        \draw (72,-57.1) node {$v_1$};
+        \draw [black] (50.5,-72.6) circle (3);
+        \draw (50.5,-72.6) node {$W_o$};
+        \draw [black] (95,-72.6) circle (3);
+        \draw (95,-72.6) node {$b_o$};
+        \draw [black] (72,-72.6) circle (3);
+        \draw (72,-72.6) node {$u_1$};
+        \draw [black] (72,-87.8) circle (3);
+        \draw (72,-87.8) node {$t_2$};
+        \draw [black] (50.5,-87.8) circle (3);
+        \draw (50.5,-87.8) node {$t_1$};
+        \draw [black] (72,-102.3) circle (3);
+        \draw (72,-102.3) node {$b_a$};
+        \draw [black] (29.5,-102.3) circle (3);
+        \draw (29.5,-102.3) node {$W_i$};
+        \draw [black] (50.5,-102.3) circle (3);
+        \draw (50.5,-102.3) node {$x_1$};
+        \draw [black] (95,-40.9) circle (3);
+        \draw (95,-40.9) node {$w_1$};
+        \draw [black] (119,-40.9) circle (3);
+        \draw (119,-40.9) node {$w_2$};
+        \draw [black] (119,-57.1) circle (3);
+        \draw (119,-57.1) node {$y_1$};
+        \draw [black] (95,-6.2) circle (3);
+        \draw (95,-6.2) node {$\frac{1}{2}$};
+        \draw [black] (119,-23.2) circle (3);
+        \draw (119,-23.2) node {$pr$};
+        \draw [black] (75,-57.1) -- (92,-57.1);
+        \fill [black] (92,-57.1) -- (91.2,-56.6) -- (91.2,-57.6);
+        \draw (83.5,-57.6) node [below,align=left] {$+$};
+        \draw [black] (95,-69.6) -- (95,-60.1);
+        \fill [black] (95,-60.1) -- (94.5,-60.9) -- (95.5,-60.9);
+        \draw [black] (72,-69.6) -- (72,-60.1);
+        \fill [black] (72,-60.1) -- (71.5,-60.9) -- (72.5,-60.9);
+        \draw [black] (52.93,-70.85) -- (69.57,-58.85);
+        \fill [black] (69.57,-58.85) -- (68.63,-58.92) -- (69.21,-59.73);
+        \draw (64.78,-65.35) node [below,align=left] {$\mbox{ }\mbox{ }\mbox{ }\mbox{ }\mbox{ }\mbox{ }\mbox{ }dot$};
+        \draw [black] (72,-84.8) -- (72,-75.6);
+        \fill [black] (72,-75.6) -- (71.5,-76.4) -- (72.5,-76.4);
+        \draw (72.5,-80.2) node [right,align=left] {$\sigma$};
+        \draw [black] (53.5,-87.8) -- (69,-87.8);
+        \fill [black] (69,-87.8) -- (68.2,-87.3) -- (68.2,-88.3);
+        \draw (61.25,-88.3) node [below,align=left] {$+$};
+        \draw [black] (72,-99.3) -- (72,-90.8);
+        \fill [black] (72,-90.8) -- (71.5,-91.6) -- (72.5,-91.6);
+        \draw [black] (31.97,-100.6) -- (48.03,-89.5);
+        \fill [black] (48.03,-89.5) -- (47.09,-89.55) -- (47.66,-90.37);
+        \draw (43.03,-95.55) node [below,align=left] {$\mbox{ }\mbox{ }\mbox{ }\mbox{ }\mbox{ }dot$};
+        \draw [black] (50.5,-99.3) -- (50.5,-90.8);
+        \fill [black] (50.5,-90.8) -- (50,-91.6) -- (51,-91.6);
+        \draw [black] (95,-54.1) -- (95,-43.9);
+        \fill [black] (95,-43.9) -- (94.5,-44.7) -- (95.5,-44.7);
+        \draw (95.5,-49) node [right,align=left] {$\sigma$};
+        \draw [black] (119,-54.1) -- (119,-43.9);
+        \fill [black] (119,-43.9) -- (118.5,-44.7) -- (119.5,-44.7);
+        \draw [black] (98,-40.9) -- (116,-40.9);
+        \fill [black] (116,-40.9) -- (115.2,-40.4) -- (115.2,-41.4);
+        \draw (107,-41.4) node [below,align=left] {$-$};
+        \draw [black] (98,-6.2) -- (116,-6.2);
+        \fill [black] (116,-6.2) -- (115.2,-5.7) -- (115.2,-6.7);
+        \draw (107,-6.7) node [below,align=left] {$mult$};
+        \draw [black] (119,-37.9) -- (119,-26.2);
+        \fill [black] (119,-26.2) -- (118.5,-27) -- (119.5,-27);
+        \draw (119.5,-32.05) node [right,align=left] {$square$};
+        \draw [black] (119,-20.2) -- (119,-9.2);
+        \fill [black] (119,-9.2) -- (118.5,-10) -- (119.5,-10);
+        \end{tikzpicture}
+        \end{center}
+        
+        \ \newline
+        We have the following notations from the top ($L$) to the bottom (variables):
+        \begin{enumerate}
+            \item $L = \frac{1}{2} pr$
+            \item $pr = w_2^2$
+            \item $w_1 = \sigma(v_2)$ and $w_2 = w_1 - y_1$
+            \item $v_1 = W_o^T u_1$ and $v_2 = v_1 + b_o$
+            \item $u_1 = \sigma(t_2)$
+            \item $t_1 = W_i^T x_1$ and $t_2 = t_1 + b_a$
+        \end{enumerate}
+
+    \subsection*{b)}
+        We consider that 
+        \begin{enumerate}
+            \item $W_i = \left( \begin{matrix} w_i^{(1,1)} & w_i^{(1,2)} \\ w_i^{(2,1)} & w_i^{(2,2)} \end{matrix} \right)$,
+                $W_o = \left( \begin{matrix} w_o^{(1)} \\ w_o^{(2)} \end{matrix} \right)$,
+                $x_1 = \left( \begin{matrix} x_1^{(1)} \\ x_1^{(2)} \end{matrix} \right)$ and
+                $u_1 = \left( \begin{matrix} u_1^{(1)} \\ u_1^{(2)} \end{matrix} \right)$
+            \item $W_i^T x_1 = \left( \begin{matrix} w_i^{(1,1)} & w_i^{(2,1)} \\ w_i^{(1,2)} & w_i^{(2,2)} \end{matrix} \right) 
+                \cdot \left( \begin{matrix} x_1^{(1)} \\ x_1^{(2)} \end{matrix} \right)
+                = \left( \begin{matrix} w_i^{(1,1)} x_1^{(1)} + w_i^{(2,1)} x_1^{(2)} \\ w_i^{(1,2)} x_1^{(1)} + w_i^{(2,2)} x_1^{(2)} \end{matrix} \right)$
+            \item $W_o^T u_1 = \left( \begin{matrix} w_o^{(1)} & w_o^{(2)} \end{matrix} \right) 
+                \cdot \left( \begin{matrix} u_1^{(1)} \\ u_1^{(2)} \end{matrix} \right) = w_o^{(1)} u_1^{(1)} + w_o^{(2)} u_1^{(2)}$
+        \end{enumerate}
+        
+        We have the following derivations from the top ($L$) to the bottom (variables):
+        \begin{enumerate}
+            \item $\frac{\partial L}{\partial pr} = \frac{1}{2}$
+            \item $\frac{\partial pr}{\partial w_2} = 2 w_2$
+            \item $\frac{\partial w_2}{\partial w_1} = 1$ and $\frac{\partial w_2}{\partial y_1} = -1$
+            \item $\frac{\partial w_1}{\partial v_2} = \sigma(v_2) - \sigma^2(v_2)$ (A6.1 a))
+            \item $\frac{\partial v_2}{\partial v_1} = 1$ and $\frac{\partial v_2}{\partial b_o} = 1$
+            \item For the derivation $\frac{\partial v_1}{\partial W_o}$, we have to derive every component of $W_o$:
+                \begin{itemize}
+                    \item $\frac{\partial v_1}{\partial w_o^{(1)}} = u_1^{(1)}$
+                    \item $\frac{\partial v_1}{\partial w_o^{(2)}} = u_1^{(2)}$
+                \end{itemize} 
+            \item For the derivation $\frac{\partial v_1}{\partial u_1}$, we have to derive every component of $u_1$:
+                \begin{itemize}
+                    \item $\frac{\partial v_1}{\partial u_1^{(1)}} = w_o^{(1)}$
+                    \item $\frac{\partial v_1}{\partial u_1^{(2)}} = w_o^{(2)}$
+                \end{itemize} 
+            \item $\frac{\partial u_1}{\partial t_2} = \sigma(t_2) - \sigma^2(t_2)$ (A6.1 a))
+            \item $\frac{\partial t_2}{\partial t_1} = 1$ and $\frac{\partial t_2}{\partial b_a} = 1$
+            \item For the derivation $\frac{\partial t_1}{\partial W_i}$, we have to derive every component of $W_i$:
+                \begin{itemize}
+                    \item $\frac{\partial t_1}{\partial w_i^{(1,1)}} = \left( \begin{matrix} x_1^{(1)} \\ 0 \end{matrix} \right)$
+                    \item $\frac{\partial t_1}{\partial w_i^{(2,1)}} = \left( \begin{matrix} x_1^{(2)} \\ 0 \end{matrix} \right)$
+                    \item $\frac{\partial t_1}{\partial w_i^{(1,2)}} = \left( \begin{matrix} 0 \\ x_1^{(1)} \end{matrix} \right)$
+                    \item $\frac{\partial t_1}{\partial w_i^{(2,2)}} = \left( \begin{matrix} 0 \\ x_1^{(2)} \end{matrix} \right)$
+                \end{itemize}
+            \item For the derivation $\frac{\partial t_1}{\partial x_1}$, we have to derive every component of $x_1$:
+                \begin{itemize}
+                    \item $\frac{\partial t_1}{\partial x_1^{(1)}} = \left( \begin{matrix} w_i^{(1,1)} \\ w_i^{(1,2)} \end{matrix} \right)$
+                    \item $\frac{\partial t_1}{\partial x_1^{(2)}} = \left( \begin{matrix} w_i^{(2,1)} \\ w_i^{(2,2)} \end{matrix} \right)$
+                \end{itemize}
+        \end{enumerate}
+        
+        Now we will build the partial derivatives of $L$ with respect to $W_i$, $W_o$ and $b$:
+        \begin{itemize}
+            \item Derivative of $L$ with respect to $W_i$:
+                \begin{itemize}
+                    \item First we build the derivative of $L$ with respect to $w_i^{(1,1)}$:
+                        \begin{align*}
+                            \frac{\partial L}{\partial w_i^{(1,1)}} &= \frac{\partial L}{\partial pr} \frac{\partial pr}{\partial w_2} 
+                            \frac{\partial w_2}{\partial w_1} \frac{\partial w_1}{\partial v_2} \frac{\partial v_2}{\partial v_1}
+                            \frac{\partial v_1}{\partial u_1} \frac{\partial u_1}{\partial t_2} \frac{\partial t_2}{\partial t_1} \frac{\partial t_2}{\partial w_i^{(1,1)}}\\
+                            &= \frac{1}{2} \cdot 2 \cdot (\sigma(W_o^T(\sigma(W_i^T x_1 + b_a)) + b_o) - y_1)\\
+                            &\ \ \ \ \cdot [\sigma(W_o^T(\sigma(W_i^T x_1 + b_a)) + b_o) - \sigma^2(W_o^T(\sigma(W_i^T x_1 + b_a)) + b_o)] \cdot 1\\
+                            &\ \ \ \ \cdot W_o^T \cdot [\sigma(W_i^T x_1 + b_a) - \sigma^2(W_i^T x_1 + b_a)] \cdot 1 
+                            \cdot \left( \begin{matrix} x_1^{(1)} \\ 0 \end{matrix} \right)\\
+                            &= (\sigma(W_o^T(\sigma(W_i^T x_1 + b_a)) + b_o) - y_1) \cdot w_o^{(1)} [\sigma(W_i^T x_1 + b_a) - \sigma^2(W_i^T x_1 + b_a)] x_1^{(1)}\\
+                            &\ \ \ \ \cdot [\sigma(W_o^T(\sigma(W_i^T x_1 + b_a)) + b_o) - \sigma^2(W_o^T(\sigma(W_i^T x_1 + b_a)) + b_o)]
+                        \end{align*}
+                    \item Second we build the derivative of $L$ with respect to $w_i^{(1,2)}$:
+                        \begin{align*}
+                            \frac{\partial L}{\partial w_i^{(1,2)}} &= \frac{\partial L}{\partial pr} \frac{\partial pr}{\partial w_2} 
+                            \frac{\partial w_2}{\partial w_1} \frac{\partial w_1}{\partial v_2} \frac{\partial v_2}{\partial v_1}
+                            \frac{\partial v_1}{\partial u_1} \frac{\partial u_1}{\partial t_2} \frac{\partial t_2}{\partial t_1} \frac{\partial t_2}{\partial w_i^{(1,2)}}\\
+                            &= \frac{1}{2} \cdot 2 \cdot (\sigma(W_o^T(\sigma(W_i^T x_1 + b_a)) + b_o) - y_1)\\
+                            &\ \ \ \ \cdot [\sigma(W_o^T(\sigma(W_i^T x_1 + b_a)) + b_o) - \sigma^2(W_o^T(\sigma(W_i^T x_1 + b_a)) + b_o)] \cdot 1\\
+                            &\ \ \ \ \cdot W_o^T \cdot [\sigma(W_i^T x_1 + b_a) - \sigma^2(W_i^T x_1 + b_a)] \cdot 1 
+                            \cdot \left(\begin{matrix} 0 \\ x_1^{(1)} \end{matrix} \right)\\
+                            &= (\sigma(W_o^T(\sigma(W_i^T x_1 + b_a)) + b_o) - y_1) \cdot w_o^{(2)} [\sigma(W_i^T x_1 + b_a) - \sigma^2(W_i^T x_1 + b_a)] x_1^{(1)}\\
+                            &\ \ \ \ \cdot [\sigma(W_o^T(\sigma(W_i^T x_1 + b_a)) + b_o) - \sigma^2(W_o^T(\sigma(W_i^T x_1 + b_a)) + b_o)]
+                        \end{align*}
+                    \item Third we build the derivative of $L$ with respect to $w_i^{(2,1)}$:
+                        \begin{align*}
+                            \frac{\partial L}{\partial w_i^{(2,1)}} &= \frac{\partial L}{\partial pr} \frac{\partial pr}{\partial w_2} 
+                            \frac{\partial w_2}{\partial w_1} \frac{\partial w_1}{\partial v_2} \frac{\partial v_2}{\partial v_1}
+                            \frac{\partial v_1}{\partial u_1} \frac{\partial u_1}{\partial t_2} \frac{\partial t_2}{\partial t_1} \frac{\partial t_2}{\partial w_i^{(2,1)}}\\
+                            &= \frac{1}{2} \cdot 2 \cdot (\sigma(W_o^T(\sigma(W_i^T x_1 + b_a)) + b_o) - y_1)\\
+                            &\ \ \ \ \cdot [\sigma(W_o^T(\sigma(W_i^T x_1 + b_a)) + b_o) - \sigma^2(W_o^T(\sigma(W_i^T x_1 + b_a)) + b_o)] \cdot 1\\
+                            &\ \ \ \ \cdot W_o^T \cdot [\sigma(W_i^T x_1 + b_a) - \sigma^2(W_i^T x_1 + b_a)] \cdot 1 
+                            \cdot \left( \begin{matrix} x_1^{(2)} \\ 0 \end{matrix} \right)\\
+                            &= (\sigma(W_o^T(\sigma(W_i^T x_1 + b_a)) + b_o) - y_1) \cdot w_o^{(1)} [\sigma(W_i^T x_1 + b_a) - \sigma^2(W_i^T x_1 + b_a)] x_1^{(2)}\\
+                            &\ \ \ \ \cdot [\sigma(W_o^T(\sigma(W_i^T x_1 + b_a)) + b_o) - \sigma^2(W_o^T(\sigma(W_i^T x_1 + b_a)) + b_o)]
+                        \end{align*}
+                    \item Now we build the derivative of $L$ with respect to $w_i^{(2,2)}$:
+                        \begin{align*}
+                            \frac{\partial L}{\partial w_i^{(2,2)}} &= \frac{\partial L}{\partial pr} \frac{\partial pr}{\partial w_2} 
+                            \frac{\partial w_2}{\partial w_1} \frac{\partial w_1}{\partial v_2} \frac{\partial v_2}{\partial v_1}
+                            \frac{\partial v_1}{\partial u_1} \frac{\partial u_1}{\partial t_2} \frac{\partial t_2}{\partial t_1} \frac{\partial t_2}{\partial w_i^{(2,2)}}\\
+                            &= \frac{1}{2} \cdot 2 \cdot (\sigma(W_o^T(\sigma(W_i^T x_1 + b_a)) + b_o) - y_1)\\
+                            &\ \ \ \ \cdot [\sigma(W_o^T(\sigma(W_i^T x_1 + b_a)) + b_o) - \sigma^2(W_o^T(\sigma(W_i^T x_1 + b_a)) + b_o)] \cdot 1\\
+                            &\ \ \ \ \cdot W_o^T \cdot [\sigma(W_i^T x_1 + b_a) - \sigma^2(W_i^T x_1 + b_a)] \cdot 1 
+                            \cdot \left(\begin{matrix} 0 \\ x_1^{(2)} \end{matrix} \right)\\
+                            &= (\sigma(W_o^T(\sigma(W_i^T x_1 + b_a)) + b_o) - y_1) \cdot w_o^{(2)} [\sigma(W_i^T x_1 + b_a) - \sigma^2(W_i^T x_1 + b_a)] x_1^{(2)}\\
+                            &\ \ \ \ \cdot [\sigma(W_o^T(\sigma(W_i^T x_1 + b_a)) + b_o) - \sigma^2(W_o^T(\sigma(W_i^T x_1 + b_a)) + b_o)]
+                        \end{align*}
+                \end{itemize}
+            
+            \item Derivative of $L$ with respect to $W_o$:
+                \begin{itemize}
+                    \item First we build the derivative of $L$ with respect to $w_o^{(1)}$:
+                        \begin{align*}
+                            \frac{\partial L}{\partial w_o^{(1)}} &= \frac{\partial L}{\partial pr} \frac{\partial pr}{\partial w_2} 
+                            \frac{\partial w_2}{\partial w_1} \frac{\partial w_1}{\partial v_2} \frac{\partial v_2}{\partial v_1}
+                            \frac{\partial v_1}{\partial w_o^{(1)}}\\
+                            &= \frac{1}{2} \cdot 2 \cdot (\sigma(W_o^T(\sigma(W_i^T x_1 + b_a)) + b_o) - y_1)\\
+                            &\ \ \ \ \cdot [\sigma(W_o^T(\sigma(W_i^T x_1 + b_a)) + b_o) - \sigma^2(W_o^T(\sigma(W_i^T x_1 + b_a)) + b_o)] \cdot 1 \cdot u_1^{(1)}\\
+                            &= \cdot u_1^{(1)} \cdot (\sigma(W_o^T(\sigma(W_i^T x_1 + b_a)) + b_o) - y_1)\\
+                            &\ \ \ \ \cdot [\sigma(W_o^T(\sigma(W_i^T x_1 + b_a)) + b_o) - \sigma^2(W_o^T(\sigma(W_i^T x_1 + b_a)) + b_o)]
+                        \end{align*}
+                    \item Now we build the derivative of $L$ with respect to $w_o^{(2)}$:
+                        \begin{align*}
+                            \frac{\partial L}{\partial w_o^{(2)}} &= \frac{\partial L}{\partial pr} \frac{\partial pr}{\partial w_2} 
+                            \frac{\partial w_2}{\partial w_1} \frac{\partial w_1}{\partial v_2} \frac{\partial v_2}{\partial v_1}
+                            \frac{\partial v_1}{\partial w_o^{(2)}}\\
+                            &= \frac{1}{2} \cdot 2 \cdot (\sigma(W_o^T(\sigma(W_i^T x_1 + b_a)) + b_o) - y_1)\\
+                            &\ \ \ \ \cdot [\sigma(W_o^T(\sigma(W_i^T x_1 + b_a)) + b_o) - \sigma^2(W_o^T(\sigma(W_i^T x_1 + b_a)) + b_o)] \cdot 1 \cdot u_1^{(2)}\\
+                            &= \cdot u_1^{(2)} \cdot (\sigma(W_o^T(\sigma(W_i^T x_1 + b_a)) + b_o) - y_1)\\
+                            &\ \ \ \ \cdot [\sigma(W_o^T(\sigma(W_i^T x_1 + b_a)) + b_o) - \sigma^2(W_o^T(\sigma(W_i^T x_1 + b_a)) + b_o)]
+                        \end{align*}
+                \end{itemize}
+            
+            \item Derivative of $L$ with respect to $b = (b_o, b_a)$:
+                \begin{itemize}
+                    \item First we build the derivative of $L$ with respect to $b_o$:
+                        \begin{align*}
+                            \frac{\partial L}{\partial b_o} &= \frac{\partial L}{\partial pr} \frac{\partial pr}{\partial w_2} 
+                            \frac{\partial w_2}{\partial w_1} \frac{\partial w_1}{\partial v_2} \frac{\partial v_2}{\partial b_o}\\
+                            &= \frac{1}{2} \cdot 2 \cdot (\sigma(W_o^T(\sigma(W_i^T x_1 + b_a)) + b_o) - y_1)\\
+                            &\ \ \ \ \cdot [\sigma(W_o^T(\sigma(W_i^T x_1 + b_a)) + b_o) - \sigma^2(W_o^T(\sigma(W_i^T x_1 + b_a)) + b_o)] \cdot 1\\
+                            &= (\sigma(W_o^T(\sigma(W_i^T x_1 + b_a)) + b_o) - y_1)\\
+                            &\ \ \ \ \cdot [\sigma(W_o^T(\sigma(W_i^T x_1 + b_a)) + b_o) - \sigma^2(W_o^T(\sigma(W_i^T x_1 + b_a)) + b_o)]
+                        \end{align*}
+                    \item Now we build the derivative of $L$ with respect to $b_a$:
+                        \begin{align*}
+                            \frac{\partial L}{\partial b_a} &= \frac{\partial L}{\partial pr} \frac{\partial pr}{\partial w_2} 
+                            \frac{\partial w_2}{\partial w_1} \frac{\partial w_1}{\partial v_2} \frac{\partial v_2}{\partial v_1}
+                            \frac{\partial v_1}{\partial u_1} \frac{\partial u_1}{\partial t_2} \frac{\partial t_2}{\partial b_a}\\
+                            &= \frac{1}{2} \cdot 2 \cdot (\sigma(W_o^T(\sigma(W_i^T x_1 + b_a)) + b_o) - y_1)\\
+                            &\ \ \ \ \cdot [\sigma(W_o^T(\sigma(W_i^T x_1 + b_a)) + b_o) - \sigma^2(W_o^T(\sigma(W_i^T x_1 + b_a)) + b_o)] \cdot 1\\
+                            &\ \ \ \ \cdot W_o^T \cdot [\sigma(W_i^T x_1 + b_a) - \sigma^2(W_i^T x_1 + b_a)] \cdot 1\\
+                            &= W_o^T  \cdot (\sigma(W_o^T(\sigma(W_i^T x_1 + b_a)) + b_o) - y_1) \cdot [\sigma(W_i^T x_1 + b_a) - \sigma^2(W_i^T x_1 + b_a)]\\
+                            &\ \ \ \ \cdot [\sigma(W_o^T(\sigma(W_i^T x_1 + b_a)) + b_o) - \sigma^2(W_o^T(\sigma(W_i^T x_1 + b_a)) + b_o)]
+                        \end{align*}
+                \end{itemize}
+        \end{itemize}
+
+
+
+
+\newpage
+\section*{Exercise 6.3 - Local Minima and Optima}
+    \subsection*{a)}
+        The distribution of the eigenvalues with regards to their sign shifts to the right as the training error decreases (more positive values).
+
+    \subsection*{b)}
+        Gradient Descend always points in the direction of a saddle point. 
+        It also moves there, because the method assumes a low point.
+        The Newton method has the problem that with especially negative eigenvalues, it moves in the opposite direction to the gradient descend. Here the eigenvalues of the Hessian matrix imply that the saddle point is a desirable target.
+        Trust region, as a practical implementation of second order methods for non-convex problems, dampens the Hessian matrix to remove negative curvature. Adding a constant to the main diagonal then adds this constant to the eigenvalues as well.
+
+    \subsection*{c)}
+        The Saddle-free Newton algorithm uses the absolute value of the Hessian matrix of the empirical risk function to bypass saddle points quickly and effectively.
+        The algorithm is identical to the Newton method when the Hessian Matrix is positive definite.
+        
+
+
+\end{document}
