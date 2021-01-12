@@ -1,0 +1,161 @@
+\documentclass[a4paper]{article}
+\usepackage[utf8]{inputenc}
+\usepackage{fancyhdr}
+\usepackage{vmargin}
+\usepackage{listings}
+
+%nicer tables
+\usepackage{booktabs}
+
+\usepackage{graphicx}
+
+\usepackage{float}
+
+\usepackage{color}
+\usepackage{url}
+\usepackage{hyperref}
+
+\usepackage{enumerate}
+
+\usepackage[backend=biber]{biblatex}
+
+\usepackage{csquotes}
+
+\usepackage{multicol}
+\setlength{\columnsep}{1cm}
+\setlength{\headheight}{36pt}
+
+\definecolor{bluekeywords}{rgb}{0.13,0.13,1}
+\definecolor{greencomments}{rgb}{0,0.5,0}
+\definecolor{redstrings}{rgb}{0.9,0,0}
+
+
+
+%
+\usepackage{amsmath, amsthm, amssymb}
+\usepackage[ngerman, english]{babel}
+\usepackage{marvosym}
+\usepackage{graphics}
+\usepackage{extarrows}
+\usepackage{forloop}
+\usepackage{mathtools}
+
+\usepackage[]{algorithm2e}
+
+\usepackage{hyperref}% http://ctan.org/pkg/hyperref
+\usepackage{cleveref}% http://ctan.org/pkg/cleveref
+\usepackage{lipsum}% http://ctan.org/pkg/lipsum
+\newtheorem{definition}{Definition}
+\newtheorem{theorem}{Theorem}
+\newtheorem{lemma}{Lemma}
+\newtheorem{preliminary}{Preliminary}
+\newtheorem{notation}{Notation}
+\newtheorem{property}{Property}
+\newtheorem{corollary}{Corollary}
+\newtheorem{example}{Example}
+\newtheorem{hypothesis}{Hypothesis}
+
+\crefname{theorem}{Theorem}{Theorems}
+\crefname{definition}{Definition}{Definitions}
+\crefname{lemma}{Lemma}{Lemmas}
+\crefname{preliminary}{Preliminary}{Preliminaries}
+\crefname{notation}{Notation}{Notations}
+\crefname{property}{Property}{Properties}
+\crefname{corollary}{Corollary}{Corollaries}
+\crefname{example}{Example}{Examples}
+\crefname{hypothesis}{Hypothesis}{Hypotheses}
+
+\newenvironment{beweis}{\begin{proof}[Beweis]}{\end{proof}}
+%
+
+
+
+\lstset{language=Python,
+showspaces=false,
+showtabs=false,
+breaklines=true,
+showstringspaces=false,
+breakatwhitespace=true,
+escapeinside={(*@}{@*)},
+commentstyle=\color{greencomments},
+keywordstyle=\color{bluekeywords}\bfseries,
+stringstyle=\color{redstrings},
+basicstyle=\ttfamily
+}
+
+
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{5pt}
+
+\frenchspacing
+\pagestyle{fancy}
+\sloppy 
+
+\markright{headline}
+
+\addbibresource{references.bib}
+
+\begin{document}
+
+\lhead{\begin{tabular}{l}
+\\
+Neural Networks\\
+WiSe 2020/2021\\
+\end{tabular}}
+
+\rhead{\begin{tabular}{r}
+Assignment 8\\
+Simon Laurent Lebailly, 2549365, s9sileba@teams.uni-saarland.de\\%% <=== Also HERE if you have a team mateUpdate Name HERE !!! 
+Christian Mathieu Schmidt, 2537621, s9cmscmi@teams.uni-saarland.de
+\end{tabular}}
+
+
+
+
+\section*{Exercise 8.1: Empirical Risk Minimization}
+    \subsection*{a)}
+        
+
+    \subsection*{b)}
+        
+    
+    \subsection*{c)}
+        
+
+
+
+\newpage
+\section*{Exercise 8.2: First-Order Optimization}
+    \subsection*{a)}
+        
+
+    
+    \subsection*{b)}
+        
+
+
+    \subsection*{c)}
+        
+
+
+
+\newpage
+\section*{Exercise 8.3: Second-Order Optimization}
+    \subsection*{a)}
+        
+
+    
+    \subsection*{b)}
+        
+
+    
+    \subsection*{c)}
+        
+
+
+    \subsection*{d)}
+        
+
+
+
+\end{document}

@@ -104,7 +104,7 @@ WiSe 2020/2021\\
 \end{tabular}}
 
 \rhead{\begin{tabular}{r}
-Assignment 6\\
+Assignment 7\\
 Simon Laurent Lebailly, 2549365, s9sileba@teams.uni-saarland.de\\%% <=== Also HERE if you have a team mateUpdate Name HERE !!! 
 Christian Mathieu Schmidt, 2537621, s9cmscmi@teams.uni-saarland.de
 \end{tabular}}
@@ -189,12 +189,25 @@ Christian Mathieu Schmidt, 2537621, s9cmscmi@teams.uni-saarland.de
 \section*{Exercise 7.2: Multi-Task Learning and Data Augmentation}
     \subsection*{a)}
         \begin{enumerate}
-            \item \textbf{Problem 1:}
-                    
-                \textbf{Solution1:}
+            \item \textbf{Problem:}
+                    In multi-task learning tasks, some practitioners have observed problematic results where performance on certain tasks has decreased due to task interference.\\
+                \textbf{Solution/Method:}
+                    The authors have to determine whether tasks interfere constructively or destructively from theoretical and empirical perspectives.
+
+            \item \textbf{Problem:}
+                    Determining whether two tasks interfere constructively or destructively.\\
+                \textbf{Solution/Method:}
+                    Investigating an architecture with a shared module for each task (Ruder(2017)).
+                    The observation shows that by measuring the similarities of the task data and the models separately, the interference of tasks and attribute the cause more precisely, are analyzable.
+
+            \item \textbf{Problem:}
+                    There is no scale to determine the interference.\\
+                \textbf{Solution/Method:}
+                    The authors propose a more fine-grained notion called "task covariance" which can be used to measure the alignment of task data.
         \end{enumerate}
     
     \subsection*{b)}
+        See jupyter notebook file.
 
 
 
