@@ -221,7 +221,8 @@ Christian Mathieu Schmidt, 2537621, s9cmscmi@teams.uni-saarland.de
                     \end{align}
                 Because $\tau > 0$ we can follow
                     \begin{align}
-                        \left(\frac{\tau-1}{\tau}\right)^{\tau} = \frac{(\tau-1)^{\tau}}{\tau^{\tau}} \ll 1
+                        (1-\epsilon\lambda_j)^{\tau} \ll \left(\frac{\tau-1}{\tau}\right)^{\tau} 
+                        = \frac{(\tau-1)^{\tau}}{\tau^{\tau}} \ll 1
                     \end{align}
                 Thus we can follow that
                     \begin{align}
@@ -233,7 +234,30 @@ Christian Mathieu Schmidt, 2537621, s9cmscmi@teams.uni-saarland.de
                         \simeq \{1\} \omega^{*}_j = \omega^*_j
                     \end{align}
             \end{proof}
-            
+
+            \item \textbf{To show:} $|\omega^{\tau}_j| \ll |\omega^*_j|$ when $\lambda_j \ll (\epsilon\tau)^{-1}$
+            \begin{proof}
+                If $\lambda_j \ll (\epsilon\tau)^{-1}$ then we know that
+                    \begin{align}
+                        1-\epsilon\lambda_j \gg 1-\frac{\epsilon}{\epsilon\tau} = 1-\frac{1}{\tau} = \frac{\tau-1}{\tau}
+                    \end{align}
+                Because $\tau > 0$ we can follow
+                    \begin{align}
+                        (1-\epsilon\lambda_j)^{\tau} \gg \left(\frac{\tau-1}{\tau}\right)^{\tau} 
+                        = \frac{(\tau-1)^{\tau}}{\tau^{\tau}} \ll 1
+                    \end{align}
+                Thus we can follow that
+                    \begin{align}
+                        (1-\epsilon\lambda_j)^{\tau} \gg 0
+                        \ \ \ \Rightarrow\ \ \  1-(1-\epsilon\lambda_j)^{\tau} \ll 1
+                    \end{align}
+                And so we can conclude that
+                    \begin{align}
+                        |1-(1-\epsilon\lambda_j)^{\tau}| \ll 1
+                        \ \ \ \Rightarrow\ \ \  |\{1-(1-\epsilon\lambda_j)^{\tau}\}| \cdot |\omega^*_j| \ll |\omega^*_j|
+                        \ \ \ \Leftrightarrow\ \ \ |\omega^{\tau}_j| \ll |\omega^*_j|
+                    \end{align}
+            \end{proof}
         \end{itemize}
     
     \subsection*{c)}
