@@ -134,9 +134,9 @@ Christian Mathieu Schmidt, 2537621, s9cmscmi@teams.uni-saarland.de
         \begin{itemize}
             \item ERM is a problem with very high computational complexity.
             Even for simple functions and simple classes it is an NP-hard problem.
-            \item ERM has the problam, that the result depends from the derivative of the function.
+            \item ERM has the problem, that the result depends from the derivative of the function.
             But there are a lot functions which do not have useful derivatives.
-            For example, the derivative of a linear function is a constant, and thats not very useful!
+            For example, the derivative of a linear function is a constant, and that's not very useful!
         \end{itemize}
 
 
@@ -180,7 +180,17 @@ Christian Mathieu Schmidt, 2537621, s9cmscmi@teams.uni-saarland.de
 
 
     \subsection*{c)}
-        
+        \begin{itemize}
+            \item SGD has trouble navigating ravines, and the algorithm learns sometimes very slow.\\
+                The momentum algorithm accelerate learning by accumulate an exponentially decaying moving average of past gradients and continues to move in their direction.
+            \item Towards a minimum, the problem is that Momentum doesn't slow down before the hill slopes up again.\\
+                AdaGrad solves the problem by applying smaller updates to parameters associated with frequently occurring features, and larger updates to parameters associated with infrequently occurring features.
+            \item The problem with AdaGrad is the accumulation of the squared gradients in the denominator, which leads to the fact that the learning rate decreases very fast after a certain point and goes towards zero.\\ 
+                RMSProp solves the problem by dividing the learning rate by an exponentially decreasing average of the squared gradients.
+            \item In its evolution to RMSProp, the Momentum algorithm has lost much of its momentum and initial performance.\\
+                As solution for this problem, Adam acts as a mixture between Momentum and RMSProp, and computes individual adaptive learning rates for different parameters based on estimates of the first and second moments of gradients.
+        \end{itemize}
+
 
 
 
@@ -230,7 +240,7 @@ Christian Mathieu Schmidt, 2537621, s9cmscmi@teams.uni-saarland.de
         Here, the approximated matrix $M$ is iteratively refined by low-rank updates.
         Assuming we are in the $i$-th iteration, the $i+1$-th iteration is calculated as follows:\\
         When the matrix $M_i$ has been updated, the direction of descent $p_i$ is determined by $p_i = M_i g_i$.
-        The stepsize $\epsilon^*$ is then updated by a line search through $g_i$ in the direction of $p_i$. This results in the following parameter update which does not depend on the inverse Hessian matrix $H^{-1}$:
+        The step-size $\epsilon^*$ is then updated by a line search through $g_i$ in the direction of $p_i$. This results in the following parameter update which does not depend on the inverse Hessian matrix $H^{-1}$:
         \begin{align}
             \theta_{i+1} &= \theta_i + \epsilon^* p_i
         \end{align}
