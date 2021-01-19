@@ -172,12 +172,24 @@ Christian Mathieu Schmidt, 2537621, s9cmscmi@teams.uni-saarland.de
 
     
     \subsection*{c)}
-        
+        The main difference is that quasi-Newton algorithms save computational effort by approximating the inverse of the Hessian matrix rather than computing it directly.
+        Hereby the computational effort per iteration can be strongly reduced.
+        The advantage of the normal Newton method is that fewer iteration steps are needed than with the gradient method, but disadvantageously the iteration steps themselves are much more expensive.
+        The quasi-Newton algorithms are a compromise.
+        The accuracy decreases, whereby one needs more iteration steps altogether, but the individual iteration steps can be accelerated by approximation of the inverse Hessian matrix.\\
+        (Source of most of the information: Deep Learning book by Ian Goodfellow, page 312)
 
-
+\newpage
     \subsection*{d)}
-        
-
+        BFGS attempts to approximate the inverse Hessian matrix iteratively.
+        Here, the approximated matrix $M$ is iteratively refined by low-rank updates.
+        Assuming we are in the $i$-th iteration, the $i+1$-th iteration is calculated as follows:\\
+        When the matrix $M_i$ has been updated, the direction of descent $p_i$ is determined by $p_i = M_i g_i$.
+        The stepsize $\epsilon^*$ is then updated by a line search through $g_i$ in the direction of $p_i$. This results in the following parameter update which does not depend on the inverse Hessian matrix $H^{-1}$:
+        \begin{align}
+            \Theta_{i+1} &= \Theta_i + \epsilon^* p_i
+        \end{align}
+        (Source of most of the information: Deep Learning book by Ian Goodfellow, page 312)
 
 
 \end{document}
