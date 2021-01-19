@@ -159,7 +159,10 @@ Christian Mathieu Schmidt, 2537621, s9cmscmi@teams.uni-saarland.de
                 So $f(x_k) - f(x^*)$ which is always less equal the above expression, falls in the same velocity, and therefore the loss converges against zero, which is illustrated by the green line.
             
             \item \textbf{Method 3: BLACK line}\\
-                
+                By SGD + Momentum we have a exponentially decreasing loss, which looks, because of the logarithmic scaling of the plot, like a linear line.
+                And due to the momentum, which helps to accelerate the gradient in the right direction, the error minimizes, unlike the blue line which stabilizes in this scaling, further and further within the depicted range.
+                Thus, method 3 can only be illustrated by the black line or the red line.
+                But as I explain in the next point (method 4), the error of method 3 does not fall as fast as that of method 4, and thus the black line must belong to method 3.
             
             \item \textbf{Method 4: RED line}\\
                 NAG evaluate the gradient after the current velocity is applied.
