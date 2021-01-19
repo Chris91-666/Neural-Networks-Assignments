@@ -142,11 +142,33 @@ Christian Mathieu Schmidt, 2537621, s9cmscmi@teams.uni-saarland.de
 \newpage
 \section*{Exercise 8.3: Second-Order Optimization}
     \subsection*{a)}
+        First-Order optimization methods only look for the gradient to find the local minimum.
+        Second-Order optimization methods also find a downhill direction, but they consider not only the gradient, they also consider the curvature.
+        Thus, if the algorithm comes closer to a local maximum, the Hessian will be positive definite.
+        If the algorithm comes closer to a local minimum, the Hessian will be negative definite.
+        And if the algorithm comes closer to a saddle point, the Hessian will have positive and negative eigenvalues.\\
+        In short, unlike first-order optimization methods, second-order optimization methods do not ignore the curvature of a surface and thus improve the result in each individual optimization step.\\
+        
+        Since we derive twice it is of course necessary that the function is twice differentiable.
         
 
-    
     \subsection*{b)}
-        
+        Definition of Taylor series and Newton's method from Deep Learning book by Ian Goodfellow (page 307).
+        Approximation of $J(\Theta)$ near some point $\Theta_0$ with second-order Taylor series, ignoring derivatives of higher order:
+        \begin{align}
+            J(\Theta) &\approx J(\Theta_0) + (\Theta - \Theta_0)^T \nabla_{\Theta} J(\Theta_0) + \frac{1}{2} (\Theta - \Theta_0)^T H(\Theta - \Theta_0)
+        \end{align}
+        where $H$ is the Hessian of $J$ with respect to $\Theta$ evaluated at $\Theta_0$.\\
+        The Newton parameter update rule:
+        \begin{align}
+            \Theta^* &= \Theta_0 - H^{-1} \nabla_{\Theta} J(\Theta_0)
+        \end{align}
+        \textbf{Usability of Newton Method:}\\
+        With the Newton method one tries to approach the minimum of a function by approaching the zero of the derivative, which belongs to this minimum.
+        Thereby the distance of the zero point of the tangent of the derivative at the momentarily considered point is approached more and more to the zero point of the derivative.
+        This intersection is then considered as a new point, which is why the Newton method is an iterative method.
+        The distance of the intersection point of the tangent of the derivative at the momentarily considered point to the zero of the derivative decreases thereby quadratically.
+        Thus Newton's method allows a fast approach to the zero of the first derivative by considering the first and second derivative.
 
     
     \subsection*{c)}
