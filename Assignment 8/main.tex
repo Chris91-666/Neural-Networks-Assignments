@@ -114,20 +114,62 @@ Christian Mathieu Schmidt, 2537621, s9cmscmi@teams.uni-saarland.de
 
 \section*{Exercise 8.1: Empirical Risk Minimization}
     \subsection*{a)}
-        
+        As expected risk we denote the expected generalization error, which is the expected value taken over the true underlying unknown distribution $p_{data}(x,y)$ of data:
+        When we replace the true distribution $p_{data}(x,y)$ by the empirical distribution $\hat{p}_{data}(x,y)$ defined by the training set, we convert the initial problem from a machine learning problem to an optimization problem.
+        So we do not optimize the expected risk, but the empirical risk:
+        \begin{align}
+            \mathbb{E}_{x,y \sim \hat{p}_{data}(x,y)}[L(f(x;\theta),y)] = \frac{1}{m} \sum\limits_{i=1}^m L(f(x^{(i)};\theta),y^{(i)})
+        \end{align}
+        where $m$ is the number of training examples, and $\theta$ are the parameters.\\
+        The sense is that we do not optimize the true risk directly, but the empirical risk instead.
+        Through this optimization, the true risk should also be minimized!\\
+        (Source of inspiration: Deep Learning book by Ian Goodfellow, page 272,273)
+
 
     \subsection*{b)}
         
+
     
     \subsection*{c)}
-        
+        \begin{itemize}
+            \item ERM is a problem with very high computational complexity.
+            Even for simple functions and simple classes it is an NP-hard problem.
+            \item ERM has the problam, that the result depends from the derivative of the function.
+            But there are a lot functions which do not have useful derivatives.
+            For example, the derivative of a linear function is a constant, and thats not very useful!
+        \end{itemize}
+
 
 
 
 \newpage
 \section*{Exercise 8.2: First-Order Optimization}
     \subsection*{a)}
-        
+        \begin{center}
+            \includegraphics[width=120mm]{Assignment 8/A8_3_a.png}
+        \end{center}
+        \begin{itemize}
+            \item \textbf{Method 1: BLUE line}\\
+                Because of the constant step-size and the general behavior of such a method, we can see that the blue line corresponds to the gradient method.
+                At the beginning, the method approaches the minimum very quickly, i.e. with only a few iterations (ca. 1000). 
+                But because of the constant step-size and the general behavior of a gradient method, it always jumps back and forth between the slopes of the function, missing the minimum every time, and therefore not minimizing the loss any further.
+            
+            \item \textbf{Method 2: GREEN line}\\
+                Method 3 corresponds to the green line, because $\lim\limits_{k \rightarrow \infty} (1-2\sqrt{\frac{m}{L}})^kC = 0$ for a constant $C$ with $k$ as the number of iterations.
+                So $f(x_k) - f(x^*)$ which is always less equal the above expression, falls in the same velocity, and therefore the loss converges against zero, which is illustrated by the green line.
+            
+            \item \textbf{Method 3: BLACK line}\\
+                
+            
+            \item \textbf{Method 4: RED line}\\
+                NAG evaluate the gradient after the current velocity is applied.
+                Therefore it add a correction factor to the standard method of momentum and decreases the excess error from $\mathcal{O}(\frac{1}{k})$ (after $k$ steps) to $\mathcal{O}(\frac{1}{k^2})$ in the convex gradient batch.
+                This advantage we can see if we consider the black line (Method 3) and the red line.
+                Just before 3500 iterations, we can see that the red line starts to fall much harder as the black line.
+                But it falls all the time faster than the black line, and we can see that the red line is falling faster and faster in relation to the black line.
+                
+            
+        \end{itemize}
 
     
     \subsection*{b)}
@@ -154,14 +196,14 @@ Christian Mathieu Schmidt, 2537621, s9cmscmi@teams.uni-saarland.de
 
     \subsection*{b)}
         Definition of Taylor series and Newton's method from Deep Learning book by Ian Goodfellow (page 307).
-        Approximation of $J(\Theta)$ near some point $\Theta_0$ with second-order Taylor series, ignoring derivatives of higher order:
+        Approximation of $J(\theta)$ near some point $\theta_0$ with second-order Taylor series, ignoring derivatives of higher order:
         \begin{align}
-            J(\Theta) &\approx J(\Theta_0) + (\Theta - \Theta_0)^T \nabla_{\Theta} J(\Theta_0) + \frac{1}{2} (\Theta - \Theta_0)^T H(\Theta - \Theta_0)
+            J(\theta) &\approx J(\theta_0) + (\theta - \theta_0)^T \nabla_{\theta} J(\theta_0) + \frac{1}{2} (\theta - \theta_0)^T H(\theta - \theta_0)
         \end{align}
-        where $H$ is the Hessian of $J$ with respect to $\Theta$ evaluated at $\Theta_0$.\\
+        where $H$ is the Hessian of $J$ with respect to $\theta$ evaluated at $\theta_0$.\\
         The Newton parameter update rule:
         \begin{align}
-            \Theta^* &= \Theta_0 - H^{-1} \nabla_{\Theta} J(\Theta_0)
+            \theta^* &= \theta_0 - H^{-1} \nabla_{\theta} J(\theta_0)
         \end{align}
         \textbf{Usability of Newton Method:}\\
         With the Newton method one tries to approach the minimum of a function by approaching the zero of the derivative, which belongs to this minimum.
@@ -187,7 +229,7 @@ Christian Mathieu Schmidt, 2537621, s9cmscmi@teams.uni-saarland.de
         When the matrix $M_i$ has been updated, the direction of descent $p_i$ is determined by $p_i = M_i g_i$.
         The stepsize $\epsilon^*$ is then updated by a line search through $g_i$ in the direction of $p_i$. This results in the following parameter update which does not depend on the inverse Hessian matrix $H^{-1}$:
         \begin{align}
-            \Theta_{i+1} &= \Theta_i + \epsilon^* p_i
+            \theta_{i+1} &= \theta_i + \epsilon^* p_i
         \end{align}
         (Source of most of the information: Deep Learning book by Ian Goodfellow, page 312)
 
