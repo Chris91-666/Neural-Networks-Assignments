@@ -114,6 +114,39 @@ Christian Mathieu Schmidt, 2537621, s9cmscmi@teams.uni-saarland.de
 
 \section*{Exercise 9.1: Convolutions}
     \subsection*{a)}
+        Let $f(x) = e^{-x}$ and $g(x) = sin(x)$.
+        Then we can compute the convolution $f(x) \ast g(x)$ as follow
+        \begin{align}
+            f(x) \ast g(x) &= (f \ast g)(x) = (g \ast f)(x)\\
+            &= \int\limits_{t=0}^x f(x-t) g(t) dt\\
+            &= \int\limits_{t=0}^x e^{-x+t} sin(t) dt\\
+            &= \int\limits_{t=0}^x e^{-x} e^{t} sin(t) dt\\
+            &= e^{-x} \cdot \int\limits_{t=0}^x e^{t} sin(t) dt
+        \end{align}
+        To solve the integral we use \textbf{two times partial integration:} $\int m'n = mn - \int mn'$\\
+        \textbf{First time:} We set $m(t) = e^t$, $n(t) = sin(t)$, and become $m'(t) = e^t$, $n'(t) = cos(t)$
+        \begin{align}
+            \int\limits_{t=0}^x e^{t} sin(t) dt &= \left[ e^{t} sin(t) \right]_{t=0}^x - \int\limits_{t=0}^x e^{t} cos(t) dt
+        \end{align}
+        \textbf{Second time:} We set $m(t) = e^t$, $n(t) = cos(t)$, and become $m'(t) = e^t$, $n'(t) = -sin(t)$
+        \begin{align}
+            \int\limits_{t=0}^x e^{t} cos(t) dt &= \left[ e^{t} cos(t) \right]_{t=0}^x - \int\limits_{t=0}^x - e^{t} sin(t) dt\\
+            &= \left[ e^{t} cos(t) \right]_{t=0}^x + \int\limits_{t=0}^x e^{t} sin(t) dt
+        \end{align}
+        Now we put the result of the two partial integrations together, and get the following equation
+        \begin{align}
+            & & \int\limits_{t=0}^x e^{t} sin(t) dt &= \left[ e^{t} sin(t) \right]_{t=0}^x - \left( \left[ e^{t} cos(t) \right]_{t=0}^x + \int\limits_{t=0}^x e^{t} sin(t) dt \right)\\
+            & & &= \left[ e^{t} \left( sin(t) - cos(t) \right) \right]_{t=0}^x - \int\limits_{t=0}^x e^{t} sin(t) dt\\
+            &\Leftrightarrow & 2 \cdot \int\limits_{t=0}^x e^{t} sin(t) dt &= \left[ e^{t} \left( sin(t) - cos(t) \right) \right]_{t=0}^x\\
+            &\Leftrightarrow & \int\limits_{t=0}^x e^{t} sin(t) dt &= \frac{1}{2} \left[ e^{t} \left( sin(t) - cos(t) \right) \right]_{t=0}^x
+            = \frac{1}{2} \left( e^{x} \left( sin(x) - cos(x) \right) + 1 \right)
+        \end{align}
+        If we now put all together, we yield
+        \begin{align}
+            f(x) \ast g(x) &= (f \ast g)(x) = (g \ast f)(x)\\
+            &= e^{-x} \cdot \frac{1}{2} \left( e^{x} \left( sin(x) - cos(x) \right) + 1 \right)
+            = \frac{1}{2} \left( sin(x) - cos(x) + e^{-x} \right)
+        \end{align}
         
 
     \subsection*{b)}
