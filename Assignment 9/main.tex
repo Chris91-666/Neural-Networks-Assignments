@@ -115,7 +115,7 @@ Christian Mathieu Schmidt, 2537621, s9cmscmi@teams.uni-saarland.de
 \section*{Exercise 9.1: Convolutions}
     \subsection*{a)}
         Let $f(x) = e^{-x}$ and $g(x) = sin(x)$.
-        Then we can compute the convolution $f(x) \ast g(x)$ as follow
+        Then we can compute the convolution $f(x) \ast g(x)$ as follows
         \begin{align}
             f(x) \ast g(x) &= (f \ast g)(x) = (g \ast f)(x)\\
             &= \int\limits_{t=0}^x f(x-t) g(t) dt\\
@@ -153,7 +153,27 @@ Christian Mathieu Schmidt, 2537621, s9cmscmi@teams.uni-saarland.de
         
 
     \subsection*{c)}
-        
+        \begin{itemize}
+            \item \textbf{Dimension output feature map:}\\
+                \begin{align}
+                    n_{out} &= \left\lfloor \frac{n_{in} + 2*p - k}{s} \right\rfloor + 1
+                    = \left\lfloor \frac{100 + 2*0 - 7}{2} \right\rfloor + 1\\
+                    &= \left\lfloor \frac{93}{2} \right\rfloor + 1
+                    = \left\lfloor 46,5 \right\rfloor + 1 = 46 + 1 = 47
+                \end{align}
+                with $n_{in}$ as number of input features, $n_{out}$ as number of output features, $k$ as convolution kernel size, 
+                $p$ as convolution padding size, and $s$ as convolution stride size.\\
+                Therefore, the output feature map has the following dimension:
+                $$47 \times 47 \times 64$$
+            
+            \item \textbf{Total number of weight parameters $n_w$:}\\
+                \begin{align}
+                    n_w &= \underbrace{(7 * 7)}_{\text{Weights from the kernel}} *\ \ \ \ \ \ \ \ \ \  (\underbrace{32}_{\text{Input channels}} * \underbrace{2}_{\text{Filters}})\\ 
+                    &= 49\ \ \ \ \ \ \ \  * \underbrace{64}_{\text{Output channels}}\\ 
+                    &= 3136
+                \end{align}
+
+        \end{itemize}
 
     \subsection*{d)}
         \subsubsection*{i)}
