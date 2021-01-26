@@ -150,8 +150,38 @@ Christian Mathieu Schmidt, 2537621, s9cmscmi@teams.uni-saarland.de
         
 
     \subsection*{b)}
-        
+        Let $f(x) = \frac{1}{\sqrt{2 \pi}} e^{-\frac{x^2}{2}}$ and $F^2(x) = (f \ast f)(x)$.
+        \textbf{To show:} $F^{\infty}(x) = 0$
+        \begin{proof}
+            We know that $f(x) = \frac{1}{\sqrt{2 \pi}} e^{-\frac{x^2}{2}}$ is the density function of the gaussian distribution 
+            $\mathcal{N}(\mu,\,\sigma^{2})$ with mean $\mu = 0$ and standard deviation $\sigma^2 =1$, 
+            also called density function of the "standard normal distribution" $\mathcal{N}(0,1)$.\\
+            For the density function of the standard normal distribution it holds
+            \begin{align}
+                \int\limits_{-\infty}^{\infty} f(x) dx 
+                &= \int\limits_{-\infty}^{\infty} \frac{1}{\sqrt{2 \pi}} e^{-\frac{x^2}{2}} dx = 1
+            \end{align}
+            So the convolution $F^{\infty}(x)$ can be computed as follows:
+            \begin{align}
+                F^{\infty}(x) &= \lim_{n \rightarrow \infty} F^n(x)\\
+                &= \lim_{n \rightarrow \infty} \left( \frac{1}{\sqrt{2 \pi}} \right)^n \cdot G^n(x)
+            \end{align}
+            with $G^n(x) = (\underbrace{g \ast ... \ast g}_{n\text{ times}})(x)$ and $g(x) = e^{-\frac{x^2}{2}}$, we can assume
+            $0 < g(x) < 1$ for all $x /in \mathbb{R}\backslash\{0\}$,\\ and equal one for $x=0$.\\
+            We can follow that $0 < G^{n+1}(x) < G^{n} < \int\limits_{-\infty}^{\infty} g(x) dx = \sqrt{2\pi}$ for any $n \in \mathbb{N}$, and thus
+            \begin{align}
+                G^{\infty}(x) &= \lim_{n \rightarrow \infty} G^n(x) = 0
+            \end{align}
+            And so we can conclude
+            \begin{align}
+                F^{\infty}(x) &= \lim_{n \rightarrow \infty} \left( \frac{1}{\sqrt{2 \pi}} \right)^n \cdot G^n(x)\\
+                &= \underbrace{\lim_{n \rightarrow \infty} \left( \frac{1}{\sqrt{2 \pi}} \right)^n}_{=0} \cdot \underbrace{\lim_{n \rightarrow \infty} G^n(x)}_{=0\ (18)}
+                = 0 \cdot 0 = 0
+            \end{align}
+            
+        \end{proof}
 
+\newpage
     \subsection*{c)}
         \begin{itemize}
             \item \textbf{Dimension output feature map:}\\
@@ -193,7 +223,7 @@ Christian Mathieu Schmidt, 2537621, s9cmscmi@teams.uni-saarland.de
 
 \newpage
 \section*{Exercise 9.3: CNN}
-    see Jupyer Notebook file!
+    see Jupyter Notebook file!
 
 
 
